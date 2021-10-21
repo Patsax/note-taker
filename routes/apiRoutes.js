@@ -21,4 +21,18 @@ app.post("/notes", (req, res) => {
     res.end();
 });
 
+app.delete("/notes/:id", (req, res) => {
+    const id = req.params.id;
+    for (let i = 0; i < notes.length; i++) {
+        const note = notes[i];
+        if (id === note.id) {
+            notes.splice(i, 1);
+        }
+    }
+    fs.writeFile(__dirname + '/../db/db.json', JSON.stringify(notes), function (error) {
+        if (error) throw error
+    });
+    res.end();
+});
+
 module.exports = app;
